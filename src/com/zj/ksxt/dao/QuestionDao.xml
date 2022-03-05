@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.ksxt.dao.QuestionDao">
+    <select id="getEchartsList" resultType="map">
+        select count(*) as value,type as name from question group by type
+    </select>
+    <select id="getTitleByCondition" resultType="Integer">
+        select count(*) from question where title=#{title}
+    </select>
+    <insert id="save">
+        insert into question(
+                         owner,
+                         type,
+                         startDate,
+                         title,
+                         optionA,
+                         optionB,
+                         optionC,
+                         optionD,
+                         answer,
+                         createTime,
+                         createBy ) values(
+                            #{owner},
+                           #{type},
+                           #{startDate},
+                           #{title},
+                           #{optionA},
+                           #{optionB},
+                           #{optionC},
+                           #{optionD},
+                           #{answer},
+                           #{createTime},
+                           #{createBy}            )
+    </insert>
+
+
+    <select id="getTotalByCondition" resultType="Integer">
+        select
+        count(*)
+        from question q
+        join users u
+        on q.owner=u.username
+        <where>
+            <if test="title!=null and title!=''">
+                q.title like '%' #{title} '%'
+            </if>
+            <if test="owner!=null and owner!=''">
+                and u.username like '%' #{owner} '%'
+            </if>
+            <if test="startDate!=null and startDate!=''">
+                and q.startDate &gt;=  #{startDate}
+            </if>
+            <if test="type!=null and type!=''">
+                and q.type like '%'  #{type} '%'
+            </if>
+        </where>
+
+    </select>
+    <select id="getQuestionListByCondition" resultType="com.zj.domain.Question">
+        select
+        q.id,
+        q.title,
+        u.username as owner,
+        q.startDate,
+        q.type
+        from question q
+        join users u
+        on q.owner=u.username
+        <where>
+            <if test="title!=null and title!=''">
+                q.title like '%' #{title} '%'
+            </if>
+            <if test="owner!=null and owner!=''">
+                and u.username like '%' #{owner} '%'
+            </if>
+            <if test="startDate!=null and startDate!=''">
+                and q.startDate &gt;=  #{startDate}
+            </if>
+            <if test="type!=null and type!=''">
+                and q.type like '%'  #{type} '%'
+            </if>
+        </where>
+        order by q.startDate desc
+        limit #{skipCount},#{pageSize}
+    </select>
+
+    <delete id="delete">
+        delete from question where id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getById" resultType="com.zj.domain.Question">
+        select * from question where id = #{id}
+    </select>
+
+    <update id="update">
+        update question set
+                            owner = #{owner},
+                            type = #{type},
+                            startDate = #{startDate},
+                            title = #{title},
+                            optionA = #{optionA},
+                            optionB = #{optionB},
+                            optionC = #{optionC},
+                            optionD = #{optionD},
+                            answer = #{answer},
+                            editTime = #{editTime},
+                            editBy = #{editBy}
+
+        where id=#{id}
+    </update>
+
+    <select id="getTotal" resultType="Integer">
+        select count(*) from question
+    </select>
+    <select id="getExam" resultType="com.zj.domain.Question">
+
+    select id,title,optionA,optionB,optionC,optionD,answer from question where type = #{type} order by rand() limit #{num};
+
+    </select>
+</mapper>
+    

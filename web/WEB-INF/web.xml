@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <welcome-file-list>
+        <welcome-file>login.jsp</welcome-file>
+    </welcome-file-list>
+
+
+    <!--  过滤器-->
+    <!--  字符编码过滤器-->
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>com.zj.filter.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+    <!--  登录过滤器-->
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>com.zj.filter.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+
+    <!--用户登录控制器-->
+    <servlet>
+        <servlet-name>Locontroller</servlet-name>
+        <servlet-class>com.zj.settings.controller.LoController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Locontroller</servlet-name>
+        <url-pattern>/settings/user/login.do</url-pattern>
+        <url-pattern>/settings/user/loginOut.do</url-pattern>
+    </servlet-mapping>
+
+    <!--用户注册控制器-->
+    <servlet>
+        <servlet-name>ReController</servlet-name>
+        <servlet-class>com.zj.settings.controller.ReController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReController</servlet-name>
+        <url-pattern>/settings/user/saveRegist.do</url-pattern>
+    </servlet-mapping>
+
+
+    <!--用户管理控制器-->
+        <servlet>
+            <servlet-name>UserController</servlet-name>
+            <servlet-class>com.zj.settings.controller.UserController</servlet-class>
+        </servlet>
+
+    <servlet-mapping>
+    <servlet-name>UserController</servlet-name>
+    <url-pattern>/settings/user/pageList.do</url-pattern>
+    <url-pattern>/settings/user/deleteUser.do</url-pattern>
+    <url-pattern>/settings/user/getUser.do</url-pattern>
+    <url-pattern>/settings/user/updateUser.do</url-pattern>
+
+    </servlet-mapping>
+    <!--  试题管理控制器-->
+    <servlet>
+        <servlet-name>QuestionController</servlet-name>
+        <servlet-class>com.zj.ksxt.controller.QuestionController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QuestionController</servlet-name>
+        <url-pattern>/st/getUserList.do</url-pattern>
+        <url-pattern>/st/save.do</url-pattern>
+        <url-pattern>/st/pageList.do</url-pattern>
+        <url-pattern>/st/delete.do</url-pattern>
+        <url-pattern>/st/getUserListAndQuestion.do</url-pattern>
+        <url-pattern>/st/update.do</url-pattern>
+        <url-pattern>/st/detail.do</url-pattern>
+        <url-pattern>/st/getRemarkListByAid.do</url-pattern>
+        <url-pattern>/st/deleteRemark.do</url-pattern>
+        <url-pattern>/st/saveRemark.do</url-pattern>
+        <url-pattern>/st/updateRemark.do</url-pattern>
+        <url-pattern>/workbench/main/getCharts.do</url-pattern>
+        <url-pattern>/st/getExam.do</url-pattern>
+        <url-pattern>/st/doExam.do</url-pattern>
+    </servlet-mapping>
+
+<!--    成绩管理控制器-->
+    <servlet>
+        <servlet-name>Score</servlet-name>
+        <servlet-class>com.zj.ksxt.controller.ScoreController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Score</servlet-name>
+        <url-pattern>/ksxt/save.do</url-pattern>
+        <url-pattern>/ksxt/getScoreList.do</url-pattern>
+        <url-pattern>/ksxt/getRankList.do</url-pattern>
+        <url-pattern>/ksxt/getPerc.do</url-pattern>
+        <url-pattern>/admin/examinee.do</url-pattern>
+        <url-pattern>/admin/getExaminee.do</url-pattern>
+    </servlet-mapping>
+
+
+
+</web-app>

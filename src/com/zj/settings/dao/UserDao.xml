@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.settings.dao.UserDao">
+    <select id="login" resultType="com.zj.domain.User">
+        select * from users where email = #{loginAct} and password = #{loginPwd}
+    </select>
+
+    <select id="getUserList" resultType="com.zj.domain.User">
+        select id,username,sex,email from users where isAdmin=1
+    </select>
+
+    <select id="getUserEmail" resultType="com.zj.domain.User">
+        select * from users where email= #{email}
+    </select>
+
+    <insert id="saveUser">
+        insert users(username,
+                password,
+                sex,
+                email,
+                isAdmin,
+                createTime
+) values(       #{username},
+                #{password},
+                #{sex},
+                #{email},
+                #{isAdmin},
+                #{createTime}
+)
+    </insert>
+
+
+    <select id="getTotalByCondition" resultType="Integer">
+    select count(*) from users
+    <where>
+    <if test="username!=null and username!=''">
+        username like '%' #{username} '%'
+    </if>
+    </where>
+order by createTime desc
+</select>
+
+
+    <select  id="getUserListByCondition" resultType="com.zj.domain.User">
+    select id,username,sex,email,createTime from users where isAdmin not in(1)
+    <where>
+        <if test="username!=null and username!=''">
+           and username like '%' #{username} '%'
+         </if>
+    </where>
+        order by createTime desc
+    limit #{skipCount},#{pageSize}
+</select>
+
+    <delete id="deleteUser">
+        delete from users where id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getUser" resultType="com.zj.domain.User">
+        select * from users where id = #{id}
+    </select>
+
+    <update id="updateUser">
+        update users set username = #{username},sex = #{sex} where id =#{id}
+    </update>
+</mapper>
+    
