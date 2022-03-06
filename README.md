@@ -1,2 +1,2 @@
 # jspExam
-jsp+mybatis实现以及大量ajax，echarts等
+参考视频将其项目改成管理系统，jsp+mybatis实现以及大量ajax，echarts等,有考生端和管理后台，由于纯servlet还有第一次练习，所以功能实现想的太多且写的比较自由，模块分类管理不够完善，不过大部分功能都能简单使用，但存在的bug是非常多的
